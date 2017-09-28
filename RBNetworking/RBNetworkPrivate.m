@@ -142,7 +142,7 @@ void YTKLog(NSString *format, ...) {
 @implementation RBBaseRequest (RequestAccessory)
 
 - (void)toggleAccessoriesWillStartCallBack {
-    for (id<YTKRequestAccessory> accessory in self.requestAccessories) {
+    for (id<RBRequestAccessory> accessory in self.requestAccessories) {
         if ([accessory respondsToSelector:@selector(requestWillStart:)]) {
             [accessory requestWillStart:self];
         }
@@ -150,7 +150,7 @@ void YTKLog(NSString *format, ...) {
 }
 
 - (void)toggleAccessoriesWillStopCallBack {
-    for (id<YTKRequestAccessory> accessory in self.requestAccessories) {
+    for (id<RBRequestAccessory> accessory in self.requestAccessories) {
         if ([accessory respondsToSelector:@selector(requestWillStop:)]) {
             [accessory requestWillStop:self];
         }
@@ -158,7 +158,7 @@ void YTKLog(NSString *format, ...) {
 }
 
 - (void)toggleAccessoriesDidStopCallBack {
-    for (id<YTKRequestAccessory> accessory in self.requestAccessories) {
+    for (id<RBRequestAccessory> accessory in self.requestAccessories) {
         if ([accessory respondsToSelector:@selector(requestDidStop:)]) {
             [accessory requestDidStop:self];
         }
@@ -170,7 +170,7 @@ void YTKLog(NSString *format, ...) {
 @implementation RBBatchRequest (RequestAccessory)
 
 - (void)toggleAccessoriesWillStartCallBack {
-    for (id<YTKRequestAccessory> accessory in self.requestAccessories) {
+    for (id<RBRequestAccessory> accessory in self.requestAccessories) {
         if ([accessory respondsToSelector:@selector(requestWillStart:)]) {
             [accessory requestWillStart:self];
         }
@@ -178,7 +178,7 @@ void YTKLog(NSString *format, ...) {
 }
 
 - (void)toggleAccessoriesWillStopCallBack {
-    for (id<YTKRequestAccessory> accessory in self.requestAccessories) {
+    for (id<RBRequestAccessory> accessory in self.requestAccessories) {
         if ([accessory respondsToSelector:@selector(requestWillStop:)]) {
             [accessory requestWillStop:self];
         }
@@ -186,7 +186,7 @@ void YTKLog(NSString *format, ...) {
 }
 
 - (void)toggleAccessoriesDidStopCallBack {
-    for (id<YTKRequestAccessory> accessory in self.requestAccessories) {
+    for (id<RBRequestAccessory> accessory in self.requestAccessories) {
         if ([accessory respondsToSelector:@selector(requestDidStop:)]) {
             [accessory requestDidStop:self];
         }
@@ -198,7 +198,7 @@ void YTKLog(NSString *format, ...) {
 @implementation RBChainRequest (RequestAccessory)
 
 - (void)toggleAccessoriesWillStartCallBack {
-    for (id<YTKRequestAccessory> accessory in self.requestAccessories) {
+    for (id<RBRequestAccessory> accessory in self.requestAccessories) {
         if ([accessory respondsToSelector:@selector(requestWillStart:)]) {
             [accessory requestWillStart:self];
         }
@@ -206,7 +206,7 @@ void YTKLog(NSString *format, ...) {
 }
 
 - (void)toggleAccessoriesWillStopCallBack {
-    for (id<YTKRequestAccessory> accessory in self.requestAccessories) {
+    for (id<RBRequestAccessory> accessory in self.requestAccessories) {
         if ([accessory respondsToSelector:@selector(requestWillStop:)]) {
             [accessory requestWillStop:self];
         }
@@ -214,7 +214,7 @@ void YTKLog(NSString *format, ...) {
 }
 
 - (void)toggleAccessoriesDidStopCallBack {
-    for (id<YTKRequestAccessory> accessory in self.requestAccessories) {
+    for (id<RBRequestAccessory> accessory in self.requestAccessories) {
         if ([accessory respondsToSelector:@selector(requestDidStop:)]) {
             [accessory requestDidStop:self];
         }

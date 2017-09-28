@@ -16,7 +16,6 @@ NS_ENUM(NSInteger) {
     YTKRequestValidationErrorInvalidJSONFormat = -9,
     };
     
-    ///  HTTP Request method.
     typedef NS_ENUM(NSInteger, YTKRequestMethod) {
         YTKRequestMethodGET = 0,
         YTKRequestMethodPOST,
@@ -32,14 +31,12 @@ NS_ENUM(NSInteger) {
         YTKRequestSerializerTypeJSON,
     };
     
-    ///  Response serializer type, which determines response serialization process and
-    ///  the type of `responseObject`.
     typedef NS_ENUM(NSInteger, YTKResponseSerializerType) {
-        /// NSData type
+        
         YTKResponseSerializerTypeHTTP,
-        /// JSON object type
+       
         YTKResponseSerializerTypeJSON,
-        /// NSXMLParser type
+       
         YTKResponseSerializerTypeXMLParser,
     };
     
@@ -57,65 +54,40 @@ NS_ENUM(NSInteger) {
     
     @class RBBaseRequest;
     
-    typedef void(^YTKRequestCompletionBlock)(__kindof RBBaseRequest *request);
+    typedef void(^RBRequestCompletionBlock)(__kindof RBBaseRequest *request);
     
-    ///  The YTKRequestDelegate protocol defines several optional methods you can use
-    ///  to receive network-related messages. All the delegate methods will be called
-    ///  on the main queue.
-    @protocol YTKRequestDelegate <NSObject>
+  
+    @protocol RBRequestDelegate <NSObject>
     
     @optional
-    ///  Tell the delegate that the request has finished successfully.
-    ///
-    ///  @param request The corresponding request.
+
     - (void)requestFinished:(__kindof RBBaseRequest *)request;
     
-    ///  Tell the delegate that the request has failed.
-    ///
-    ///  @param request The corresponding request.
     - (void)requestFailed:(__kindof RBBaseRequest *)request;
     
     @end
     
-    ///  The YTKRequestAccessory protocol defines several optional methods that can be
-    ///  used to track the status of a request. Objects that conforms this protocol
-    ///  ("accessories") can perform additional configurations accordingly. All the
-    ///  accessory methods will be called on the main queue.
-    @protocol YTKRequestAccessory <NSObject>
+  
+@protocol RBRequestAccessory <NSObject>
     
     @optional
     
-    ///  Inform the accessory that the request is about to start.
-    ///
-    ///  @param request The corresponding request.
+  
     - (void)requestWillStart:(id)request;
     
-    ///  Inform the accessory that the request is about to stop. This method is called
-    ///  before executing `requestFinished` and `successCompletionBlock`.
-    ///
-    ///  @param request The corresponding request.
+   
     - (void)requestWillStop:(id)request;
     
-    ///  Inform the accessory that the request has already stoped. This method is called
-    ///  after executing `requestFinished` and `successCompletionBlock`.
-    ///
-    ///  @param request The corresponding request.
+    
     - (void)requestDidStop:(id)request;
     
     @end
     
-    ///  YTKBaseRequest is the abstract class of network request. It provides many options
-    ///  for constructing request. It's the base class of `YTKRequest`.
-    @interface RBBaseRequest : NSObject
+  
+@interface RBBaseRequest : NSObject
 
 #pragma mark - Request and Response Information
-///=============================================================================
-/// @name Request and Response Information
-///=============================================================================
 
-///  The underlying NSURLSessionTask.
-///
-///  @warning This value is actually nil and should not be accessed before the request starts.
 @property (nonatomic, strong, readonly) NSURLSessionTask *requestTask;
 
 ///  Shortcut for `requestTask.currentRequest`.
@@ -162,9 +134,7 @@ NS_ENUM(NSInteger) {
 
 
 #pragma mark - Request Configuration
-///=============================================================================
-/// @name Request Configuration
-///=============================================================================
+
 
 ///  Tag can be used to identify request. Default value is 0.
 @property (nonatomic) NSInteger tag;
@@ -174,32 +144,25 @@ NS_ENUM(NSInteger) {
 
 ///  The delegate object of the request. If you choose block style callback you can ignore this.
 ///  Default is nil.
-@property (nonatomic, weak, nullable) id<YTKRequestDelegate> delegate;
+@property (nonatomic, weak, nullable) id<RBRequestDelegate> delegate;
 
 ///  The success callback. Note if this value is not nil and `requestFinished` delegate method is
 ///  also implemented, both will be executed but delegate method is first called. This block
 ///  will be called on the main queue.
-@property (nonatomic, copy, nullable) YTKRequestCompletionBlock successCompletionBlock;
+@property (nonatomic, copy, nullable) RBRequestCompletionBlock successCompletionBlock;
 
 ///  The failure callback. Note if this value is not nil and `requestFailed` delegate method is
 ///  also implemented, both will be executed but delegate method is first called. This block
 ///  will be called on the main queue.
-@property (nonatomic, copy, nullable) YTKRequestCompletionBlock failureCompletionBlock;
+@property (nonatomic, copy, nullable) RBRequestCompletionBlock failureCompletionBlock;
 
 ///  This can be used to add several accossories object. Note if you use `addAccessory` to add acceesory
 ///  this array will be automatically created. Default is nil.
-@property (nonatomic, strong, nullable) NSMutableArray<id<YTKRequestAccessory>> *requestAccessories;
+@property (nonatomic, strong, nullable) NSMutableArray<id<RBRequestAccessory>> *requestAccessories;
 
 ///  This can be use to construct HTTP body when needed in POST request. Default is nil.
 @property (nonatomic, copy, nullable) AFConstructingBlock constructingBodyBlock;
 
-///  This value is used to perform resumable download request. Default is nil.
-///
-///  @discussion NSURLSessionDownloadTask is used when this value is not nil.
-///              The exist file at the path will be removed before the request starts. If request succeed, file will
-///              be saved to this path automatically, otherwise the response will be saved to `responseData`
-///              and `responseString`. For this to work, server must support `Range` and response with
-///              proper `Last-Modified` and/or `Etag`. See `NSURLSessionDownloadTask` for more detail.
 @property (nonatomic, strong, nullable) NSString *resumableDownloadPath;
 
 ///  You can use this block to track the download progress. See also `resumableDownloadPath`.
@@ -209,89 +172,63 @@ NS_ENUM(NSInteger) {
 @property (nonatomic) YTKRequestPriority requestPriority;
 
 ///  Set completion callbacks
-- (void)setCompletionBlockWithSuccess:(nullable YTKRequestCompletionBlock)success
-                              failure:(nullable YTKRequestCompletionBlock)failure;
+- (void)setCompletionBlockWithSuccess:(nullable RBRequestCompletionBlock)success
+                              failure:(nullable RBRequestCompletionBlock)failure;
 
 ///  Nil out both success and failure callback blocks.
 - (void)clearCompletionBlock;
 
 ///  Convenience method to add request accessory. See also `requestAccessories`.
-- (void)addAccessory:(id<YTKRequestAccessory>)accessory;
-
+- (void)addAccessory:(id<RBRequestAccessory>)accessory;
 
 #pragma mark - Request Action
-///=============================================================================
-/// @name Request Action
-///=============================================================================
 
-///  Append self to request queue and start the request.
 - (void)start;
 
-///  Remove self from request queue and cancel the request.
+
 - (void)stop;
 
-///  Convenience method to start the request with block callbacks.
-- (void)startWithCompletionBlockWithSuccess:(nullable YTKRequestCompletionBlock)success
-                                    failure:(nullable YTKRequestCompletionBlock)failure;
+
+- (void)startWithCompletionBlockWithSuccess:(nullable RBRequestCompletionBlock)success
+                                    failure:(nullable RBRequestCompletionBlock)failure;
 
 
 #pragma mark - Subclass Override
-///=============================================================================
-/// @name Subclass Override
-///=============================================================================
 
-///  Called on background thread after request succeded but before switching to main thread. Note if
-///  cache is loaded, this method WILL be called on the main thread, just like `requestCompleteFilter`.
 - (void)requestCompletePreprocessor;
 
-///  Called on the main thread after request succeeded.
+
 - (void)requestCompleteFilter;
 
-///  Called on background thread after request failed but before switching to main thread. See also
-///  `requestCompletePreprocessor`.
+
 - (void)requestFailedPreprocessor;
 
-///  Called on the main thread when request failed.
+
 - (void)requestFailedFilter;
 
-///  The baseURL of request. This should only contain the host part of URL, e.g., http://www.example.com.
-///  See also `requestUrl`
 - (NSString *)baseUrl;
 
-///  The URL path of request. This should only contain the path part of URL, e.g., /v1/user. See alse `baseUrl`.
-///
-///  @discussion This will be concated with `baseUrl` using [NSURL URLWithString:relativeToURL].
-///              Because of this, it is recommended that the usage should stick to rules stated above.
-///              Otherwise the result URL may not be correctly formed. See also `URLString:relativeToURL`
-///              for more information.
-///
-///              Additionaly, if `requestUrl` itself is a valid URL, it will be used as the result URL and
-///              `baseUrl` will be ignored.
 - (NSString *)requestUrl;
 
-///  Optional CDN URL for request.
+
 - (NSString *)cdnUrl;
 
-///  Requset timeout interval. Default is 60s.
-///
-///  @discussion When using `resumableDownloadPath`(NSURLSessionDownloadTask), the session seems to completely ignore
-///              `timeoutInterval` property of `NSURLRequest`. One effective way to set timeout would be using
-///              `timeoutIntervalForResource` of `NSURLSessionConfiguration`.
+
 - (NSTimeInterval)requestTimeoutInterval;
 
-///  Additional request argument.
+
 - (nullable id)requestArgument;
 
-///  Override this method to filter requests with certain arguments when caching.
+
 - (id)cacheFileNameFilterForRequestArgument:(id)argument;
 
-///  HTTP request method.
+
 - (YTKRequestMethod)requestMethod;
 
-///  Request serializer type.
+
 - (YTKRequestSerializerType)requestSerializerType;
 
-///  Response serializer type. See also `responseObject`.
+
 - (YTKResponseSerializerType)responseSerializerType;
 
 ///  Username and password used for HTTP authorization. Should be formed as @[@"Username", @"Password"].

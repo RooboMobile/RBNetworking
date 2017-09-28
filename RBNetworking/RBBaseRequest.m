@@ -68,8 +68,8 @@ NSString *const YTKRequestValidationErrorDomain = @"com.yuantiku.request.validat
 
 #pragma mark - Request Configuration
 
-- (void)setCompletionBlockWithSuccess:(YTKRequestCompletionBlock)success
-                              failure:(YTKRequestCompletionBlock)failure {
+- (void)setCompletionBlockWithSuccess:(RBRequestCompletionBlock)success
+                              failure:(RBRequestCompletionBlock)failure {
     self.successCompletionBlock = success;
     self.failureCompletionBlock = failure;
 }
@@ -101,8 +101,8 @@ NSString *const YTKRequestValidationErrorDomain = @"com.yuantiku.request.validat
     [self toggleAccessoriesDidStopCallBack];
 }
 
-- (void)startWithCompletionBlockWithSuccess:(YTKRequestCompletionBlock)success
-                                    failure:(YTKRequestCompletionBlock)failure {
+- (void)startWithCompletionBlockWithSuccess:(RBRequestCompletionBlock)success
+                                    failure:(RBRequestCompletionBlock)failure {
     [self setCompletionBlockWithSuccess:success failure:failure];
     [self start];
 }
