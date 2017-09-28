@@ -32,7 +32,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) NSString *baseUrl;
 
-@property (nonatomic, strong) NSString *cdnUrl;
 
 @property (nonatomic, strong, readonly) NSArray<id<RBUrlFilterProtocol>> *urlFilters;
 

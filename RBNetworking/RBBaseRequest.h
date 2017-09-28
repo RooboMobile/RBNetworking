@@ -177,9 +177,6 @@ typedef void(^RBRequestCompletionBlock)(__kindof RBBaseRequest *request);
 
 - (NSString *)requestUrl;
 
-- (NSString *)cdnUrl;
-
-
 - (NSTimeInterval)requestTimeoutInterval;
 
 
@@ -205,9 +202,6 @@ typedef void(^RBRequestCompletionBlock)(__kindof RBBaseRequest *request);
 
 
 - (nullable NSURLRequest *)buildCustomUrlRequest;
-
-
-- (BOOL)useCDN;
 
 
 - (BOOL)allowsCellularAccess;

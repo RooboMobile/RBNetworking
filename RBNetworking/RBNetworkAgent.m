@@ -51,7 +51,6 @@
         _processingQueue = dispatch_queue_create("com.yuantiku.networkagent.processing", DISPATCH_QUEUE_CONCURRENT);
         _allStatusCodes = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(100, 500)];
         pthread_mutex_init(&_lock, NULL);
-        
         _manager.securityPolicy = _config.securityPolicy;
         _manager.responseSerializer = [AFHTTPResponseSerializer serializer];
         // Take over the status code validation
@@ -96,18 +95,11 @@
     }
     
     NSString *baseUrl;
-    if ([request useCDN]) {
-        if ([request cdnUrl].length > 0) {
-            baseUrl = [request cdnUrl];
-        } else {
-            baseUrl = [_config cdnUrl];
-        }
-    } else {
-        if ([request baseUrl].length > 0) {
+
+    if ([request baseUrl].length > 0) {
             baseUrl = [request baseUrl];
-        } else {
+    } else {
             baseUrl = [_config baseUrl];
-        }
     }
     // URL slash compability
     NSURL *url = [NSURL URLWithString:baseUrl];

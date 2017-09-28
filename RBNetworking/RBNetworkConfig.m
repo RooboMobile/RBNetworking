@@ -32,7 +32,6 @@
     self = [super init];
     if (self) {
         _baseUrl = @"";
-        _cdnUrl = @"";
         _urlFilters = [NSMutableArray array];
         _cacheDirPathFilters = [NSMutableArray array];
         _securityPolicy = [AFSecurityPolicy defaultPolicy];
@@ -68,7 +67,7 @@
 #pragma mark - NSObject
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"<%@: %p>{ baseURL: %@ } { cdnURL: %@ }", NSStringFromClass([self class]), self, self.baseUrl, self.cdnUrl];
+    return [NSString stringWithFormat:@"<%@: %p>{ baseURL: %@ } ", NSStringFromClass([self class]), self, self.baseUrl];
 }
 
 @end
