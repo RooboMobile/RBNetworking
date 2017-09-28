@@ -8,7 +8,6 @@
 #import "RBBaseRequest.h"
 #import "RBNetworkAgent.h"
 #import "RBNetworkPrivate.h"
-
 #if __has_include(<AFNetworking/AFNetworking.h>)
 #import <AFNetworking/AFNetworking.h>
 #else
@@ -20,10 +19,10 @@
 #else
 #define NSFoundationVersionNumber_With_QoS_Available NSFoundationVersionNumber_iOS_8_0
 #endif
-NSString *const RBRequestValidationErrorDomain = @"com.yuantiku.request.validation";
-NSString *const RBRequestCacheErrorDomain = @"com.yuantiku.request.caching";
+NSString *const RBRequestValidationErrorDomain = @"com.roobo.request.validation";
+NSString *const RBRequestCacheErrorDomain = @"com.roobo.request.caching";
 
-static dispatch_queue_t ytkrequest_cache_writing_queue() {
+static dispatch_queue_t rbrequest_cache_writing_queue() {
     static dispatch_queue_t queue;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -31,13 +30,13 @@ static dispatch_queue_t ytkrequest_cache_writing_queue() {
         if (NSFoundationVersionNumber >= NSFoundationVersionNumber_With_QoS_Available) {
             attr = dispatch_queue_attr_make_with_qos_class(attr, QOS_CLASS_BACKGROUND, 0);
         }
-        queue = dispatch_queue_create("com.yuantiku.ytkrequest.caching", attr);
+        queue = dispatch_queue_create("com.roobo.networkcache.queue", attr);
     });
     
     return queue;
 }
 
-@interface YTKCacheMetadata : NSObject<NSSecureCoding>
+@interface RBCacheMetadata : NSObject<NSSecureCoding>
 
 @property (nonatomic, assign) long long version;
 @property (nonatomic, strong) NSString *sensitiveDataString;
@@ -47,7 +46,7 @@ static dispatch_queue_t ytkrequest_cache_writing_queue() {
 
 @end
 
-@implementation YTKCacheMetadata
+@implementation RBCacheMetadata
 
 + (BOOL)supportsSecureCoding {
     return YES;
@@ -87,15 +86,12 @@ static dispatch_queue_t ytkrequest_cache_writing_queue() {
 @property (nonatomic, strong, readwrite) id responseObject;
 @property (nonatomic, strong, readwrite) NSString *responseString;
 @property (nonatomic, strong, readwrite) NSError *error;
-
 @property (nonatomic, strong) NSData *cacheData;
 @property (nonatomic, strong) NSString *cacheString;
 @property (nonatomic, strong) id cacheJSON;
 @property (nonatomic, strong) NSXMLParser *cacheXML;
-
-@property (nonatomic, strong) YTKCacheMetadata *cacheMetadata;
+@property (nonatomic, strong) RBCacheMetadata *cacheMetadata;
 @property (nonatomic, assign) BOOL dataFromCache;
-
 @end
 
 @implementation RBBaseRequest
@@ -293,7 +289,7 @@ static dispatch_queue_t ytkrequest_cache_writing_queue() {
     [self requestCompletePreprocessor];
     
     if (self.writeCacheAsynchronously) {
-        dispatch_async(ytkrequest_cache_writing_queue(), ^{
+        dispatch_async(rbrequest_cache_writing_queue(), ^{
             [self saveResponseDataToCacheFile:[self responseData]];
         });
     } else {
@@ -483,7 +479,7 @@ static dispatch_queue_t ytkrequest_cache_writing_queue() {
             @try {
                 // New data will always overwrite old data.
                 [data writeToFile:[self cacheFilePath] atomically:YES];
-                YTKCacheMetadata *metadata = [[YTKCacheMetadata alloc] init];
+                RBCacheMetadata *metadata = [[RBCacheMetadata alloc] init];
                 metadata.version = [self cacheVersion];
                 metadata.sensitiveDataString = ((NSObject *)[self cacheSensitiveData]).description;
                 metadata.stringEncoding = [RBNetworkUtils stringEncodingWithRequest:self];

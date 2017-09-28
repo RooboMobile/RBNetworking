@@ -76,7 +76,6 @@ typedef void(^RBRequestCompletionBlock)(__kindof RBBaseRequest *request);
 - (void)requestDidStop:(id)request;
 @end
     
-  
 @interface RBBaseRequest : NSObject
 
 #pragma mark - Request and Response Information
@@ -177,7 +176,6 @@ typedef void(^RBRequestCompletionBlock)(__kindof RBBaseRequest *request);
 - (NSString *)baseUrl;
 
 - (NSString *)requestUrl;
-
 
 - (NSString *)cdnUrl;
 
