@@ -15,7 +15,7 @@
 #import "AFNetworking.h"
 #endif
 
-NSString *const YTKRequestValidationErrorDomain = @"com.yuantiku.request.validation";
+NSString *const RBRequestValidationErrorDomain = @"com.yuantiku.request.validation";
 
 @interface RBBaseRequest ()
 
@@ -145,16 +145,16 @@ NSString *const YTKRequestValidationErrorDomain = @"com.yuantiku.request.validat
     return argument;
 }
 
-- (YTKRequestMethod)requestMethod {
-    return YTKRequestMethodGET;
+- (RBRequestMethod)requestMethod {
+    return RBRequestMethodGET;
 }
 
-- (YTKRequestSerializerType)requestSerializerType {
-    return YTKRequestSerializerTypeHTTP;
+- (RBRequestSerializerType)requestSerializerType {
+    return RBRequestSerializerTypeHTTP;
 }
 
-- (YTKResponseSerializerType)responseSerializerType {
-    return YTKResponseSerializerTypeJSON;
+- (RBResponseSerializerType)responseSerializerType {
+    return RBResponseSerializerTypeJSON;
 }
 
 - (NSArray *)requestAuthorizationHeaderFieldArray {

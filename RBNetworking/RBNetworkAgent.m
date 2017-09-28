@@ -121,9 +121,9 @@
 
 - (AFHTTPRequestSerializer *)requestSerializerForRequest:(RBBaseRequest *)request {
     AFHTTPRequestSerializer *requestSerializer = nil;
-    if (request.requestSerializerType == YTKRequestSerializerTypeHTTP) {
+    if (request.requestSerializerType == RBRequestSerializerTypeHTTP) {
         requestSerializer = [AFHTTPRequestSerializer serializer];
-    } else if (request.requestSerializerType == YTKRequestSerializerTypeJSON) {
+    } else if (request.requestSerializerType == RBRequestSerializerTypeJSON) {
         requestSerializer = [AFJSONRequestSerializer serializer];
     }
     
@@ -149,28 +149,28 @@
 }
 
 - (NSURLSessionTask *)sessionTaskForRequest:(RBBaseRequest *)request error:(NSError * _Nullable __autoreleasing *)error {
-    YTKRequestMethod method = [request requestMethod];
+    RBRequestMethod method = [request requestMethod];
     NSString *url = [self buildRequestUrl:request];
     id param = request.requestArgument;
     AFConstructingBlock constructingBlock = [request constructingBodyBlock];
     AFHTTPRequestSerializer *requestSerializer = [self requestSerializerForRequest:request];
     
     switch (method) {
-        case YTKRequestMethodGET:
+        case RBRequestMethodGET:
             if (request.resumableDownloadPath) {
                 return [self downloadTaskWithDownloadPath:request.resumableDownloadPath requestSerializer:requestSerializer URLString:url parameters:param progress:request.resumableDownloadProgressBlock error:error];
             } else {
                 return [self dataTaskWithHTTPMethod:@"GET" requestSerializer:requestSerializer URLString:url parameters:param error:error];
             }
-        case YTKRequestMethodPOST:
+        case RBRequestMethodPOST:
             return [self dataTaskWithHTTPMethod:@"POST" requestSerializer:requestSerializer URLString:url parameters:param constructingBodyWithBlock:constructingBlock error:error];
-        case YTKRequestMethodHEAD:
+        case RBRequestMethodHEAD:
             return [self dataTaskWithHTTPMethod:@"HEAD" requestSerializer:requestSerializer URLString:url parameters:param error:error];
-        case YTKRequestMethodPUT:
+        case RBRequestMethodPUT:
             return [self dataTaskWithHTTPMethod:@"PUT" requestSerializer:requestSerializer URLString:url parameters:param error:error];
-        case YTKRequestMethodDELETE:
+        case RBRequestMethodDELETE:
             return [self dataTaskWithHTTPMethod:@"DELETE" requestSerializer:requestSerializer URLString:url parameters:param error:error];
-        case YTKRequestMethodPATCH:
+        case RBRequestMethodPATCH:
             return [self dataTaskWithHTTPMethod:@"PATCH" requestSerializer:requestSerializer URLString:url parameters:param error:error];
     }
 }
@@ -202,13 +202,13 @@
     // !!Available on iOS 8 +
     if ([request.requestTask respondsToSelector:@selector(priority)]) {
         switch (request.requestPriority) {
-            case YTKRequestPriorityHigh:
+            case RBRequestPriorityHigh:
                 request.requestTask.priority = NSURLSessionTaskPriorityHigh;
                 break;
-            case YTKRequestPriorityLow:
+            case RBRequestPriorityLow:
                 request.requestTask.priority = NSURLSessionTaskPriorityLow;
                 break;
-            case YTKRequestPriorityDefault:
+            case RBRequestPriorityDefault:
                 /*!!fall through*/
             default:
                 request.requestTask.priority = NSURLSessionTaskPriorityDefault;
@@ -260,7 +260,7 @@
     BOOL result = [request statusCodeValidator];
     if (!result) {
         if (error) {
-            *error = [NSError errorWithDomain:YTKRequestValidationErrorDomain code:YTKRequestValidationErrorInvalidStatusCode userInfo:@{NSLocalizedDescriptionKey:@"Invalid status code"}];
+            *error = [NSError errorWithDomain:RBRequestValidationErrorDomain code:RBRequestValidationErrorInvalidStatusCode userInfo:@{NSLocalizedDescriptionKey:@"Invalid status code"}];
         }
         return result;
     }
@@ -270,7 +270,7 @@
         result = [RBNetworkUtils validateJSON:json withValidator:validator];
         if (!result) {
             if (error) {
-                *error = [NSError errorWithDomain:YTKRequestValidationErrorDomain code:YTKRequestValidationErrorInvalidJSONFormat userInfo:@{NSLocalizedDescriptionKey:@"Invalid JSON format"}];
+                *error = [NSError errorWithDomain:RBRequestValidationErrorDomain code:RBRequestValidationErrorInvalidJSONFormat userInfo:@{NSLocalizedDescriptionKey:@"Invalid JSON format"}];
             }
             return result;
         }
@@ -306,14 +306,14 @@
         request.responseString = [[NSString alloc] initWithData:responseObject encoding:[RBNetworkUtils stringEncodingWithRequest:request]];
         
         switch (request.responseSerializerType) {
-            case YTKResponseSerializerTypeHTTP:
+            case RBResponseSerializerTypeHTTP:
                 // Default serializer. Do nothing.
                 break;
-            case YTKResponseSerializerTypeJSON:
+            case RBResponseSerializerTypeJSON:
                 request.responseObject = [self.jsonResponseSerializer responseObjectForResponse:task.response data:request.responseData error:&serializationError];
                 request.responseJSONObject = request.responseObject;
                 break;
-            case YTKResponseSerializerTypeXMLParser:
+            case RBResponseSerializerTypeXMLParser:
                 request.responseObject = [self.xmlParserResponseSerialzier responseObjectForResponse:task.response data:request.responseData error:&serializationError];
                 break;
         }

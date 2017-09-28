@@ -200,7 +200,7 @@ static dispatch_queue_t ytkrequest_cache_writing_queue() {
     // Make sure cache time in valid.
     if ([self cacheTimeInSeconds] < 0) {
         if (error) {
-            *error = [NSError errorWithDomain:YTKRequestCacheErrorDomain code:YTKRequestCacheErrorInvalidCacheTime userInfo:@{ NSLocalizedDescriptionKey:@"Invalid cache time"}];
+            *error = [NSError errorWithDomain:YTKRequestCacheErrorDomain code:RBRequestCacheErrorInvalidCacheTime userInfo:@{ NSLocalizedDescriptionKey:@"Invalid cache time"}];
         }
         return NO;
     }
@@ -208,7 +208,7 @@ static dispatch_queue_t ytkrequest_cache_writing_queue() {
     // Try load metadata.
     if (![self loadCacheMetadata]) {
         if (error) {
-            *error = [NSError errorWithDomain:YTKRequestCacheErrorDomain code:YTKRequestCacheErrorInvalidMetadata userInfo:@{ NSLocalizedDescriptionKey:@"Invalid metadata. Cache may not exist"}];
+            *error = [NSError errorWithDomain:YTKRequestCacheErrorDomain code:RBRequestCacheErrorInvalidMetadata userInfo:@{ NSLocalizedDescriptionKey:@"Invalid metadata. Cache may not exist"}];
         }
         return NO;
     }
@@ -221,7 +221,7 @@ static dispatch_queue_t ytkrequest_cache_writing_queue() {
     // Try load cache.
     if (![self loadCacheData]) {
         if (error) {
-            *error = [NSError errorWithDomain:YTKRequestCacheErrorDomain code:YTKRequestCacheErrorInvalidCacheData userInfo:@{ NSLocalizedDescriptionKey:@"Invalid cache data"}];
+            *error = [NSError errorWithDomain:YTKRequestCacheErrorDomain code:RBRequestCacheErrorInvalidCacheData userInfo:@{ NSLocalizedDescriptionKey:@"Invalid cache data"}];
         }
         return NO;
     }
@@ -235,7 +235,7 @@ static dispatch_queue_t ytkrequest_cache_writing_queue() {
     NSTimeInterval duration = -[creationDate timeIntervalSinceNow];
     if (duration < 0 || duration > [self cacheTimeInSeconds]) {
         if (error) {
-            *error = [NSError errorWithDomain:YTKRequestCacheErrorDomain code:YTKRequestCacheErrorExpired userInfo:@{ NSLocalizedDescriptionKey:@"Cache expired"}];
+            *error = [NSError errorWithDomain:YTKRequestCacheErrorDomain code:RBRequestCacheErrorExpired userInfo:@{ NSLocalizedDescriptionKey:@"Cache expired"}];
         }
         return NO;
     }
@@ -243,7 +243,7 @@ static dispatch_queue_t ytkrequest_cache_writing_queue() {
     long long cacheVersionFileContent = self.cacheMetadata.version;
     if (cacheVersionFileContent != [self cacheVersion]) {
         if (error) {
-            *error = [NSError errorWithDomain:YTKRequestCacheErrorDomain code:YTKRequestCacheErrorVersionMismatch userInfo:@{ NSLocalizedDescriptionKey:@"Cache version mismatch"}];
+            *error = [NSError errorWithDomain:YTKRequestCacheErrorDomain code:RBRequestCacheErrorVersionMismatch userInfo:@{ NSLocalizedDescriptionKey:@"Cache version mismatch"}];
         }
         return NO;
     }
@@ -254,7 +254,7 @@ static dispatch_queue_t ytkrequest_cache_writing_queue() {
         // If one of the strings is nil, short-circuit evaluation will trigger
         if (sensitiveDataString.length != currentSensitiveDataString.length || ![sensitiveDataString isEqualToString:currentSensitiveDataString]) {
             if (error) {
-                *error = [NSError errorWithDomain:YTKRequestCacheErrorDomain code:YTKRequestCacheErrorSensitiveDataMismatch userInfo:@{ NSLocalizedDescriptionKey:@"Cache sensitive data mismatch"}];
+                *error = [NSError errorWithDomain:YTKRequestCacheErrorDomain code:RBRequestCacheErrorSensitiveDataMismatch userInfo:@{ NSLocalizedDescriptionKey:@"Cache sensitive data mismatch"}];
             }
             return NO;
         }
@@ -265,7 +265,7 @@ static dispatch_queue_t ytkrequest_cache_writing_queue() {
     if (appVersionString || currentAppVersionString) {
         if (appVersionString.length != currentAppVersionString.length || ![appVersionString isEqualToString:currentAppVersionString]) {
             if (error) {
-                *error = [NSError errorWithDomain:YTKRequestCacheErrorDomain code:YTKRequestCacheErrorAppVersionMismatch userInfo:@{ NSLocalizedDescriptionKey:@"App version mismatch"}];
+                *error = [NSError errorWithDomain:YTKRequestCacheErrorDomain code:RBRequestCacheErrorAppVersionMismatch userInfo:@{ NSLocalizedDescriptionKey:@"App version mismatch"}];
             }
             return NO;
         }
@@ -298,13 +298,13 @@ static dispatch_queue_t ytkrequest_cache_writing_queue() {
         _cacheData = data;
         _cacheString = [[NSString alloc] initWithData:_cacheData encoding:self.cacheMetadata.stringEncoding];
         switch (self.responseSerializerType) {
-            case YTKResponseSerializerTypeHTTP:
+            case RBResponseSerializerTypeHTTP:
                 // Do nothing.
                 return YES;
-            case YTKResponseSerializerTypeJSON:
+            case RBResponseSerializerTypeJSON:
                 _cacheJSON = [NSJSONSerialization JSONObjectWithData:_cacheData options:(NSJSONReadingOptions)0 error:&error];
                 return error == nil;
-            case YTKResponseSerializerTypeXMLParser:
+            case RBResponseSerializerTypeXMLParser:
                 _cacheXML = [[NSXMLParser alloc] initWithData:_cacheData];
                 return YES;
         }
@@ -318,7 +318,6 @@ static dispatch_queue_t ytkrequest_cache_writing_queue() {
             @try {
                 // New data will always overwrite old data.
                 [data writeToFile:[self cacheFilePath] atomically:YES];
-                
                 YTKCacheMetadata *metadata = [[YTKCacheMetadata alloc] init];
                 metadata.version = [self cacheVersion];
                 metadata.sensitiveDataString = ((NSObject *)[self cacheSensitiveData]).description;

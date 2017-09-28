@@ -11,20 +11,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 FOUNDATION_EXPORT NSString *const YTKRequestCacheErrorDomain;
 
-NS_ENUM(NSInteger) {
-    YTKRequestCacheErrorExpired = -1,
-    YTKRequestCacheErrorVersionMismatch = -2,
-    YTKRequestCacheErrorSensitiveDataMismatch = -3,
-    YTKRequestCacheErrorAppVersionMismatch = -4,
-    YTKRequestCacheErrorInvalidCacheTime = -5,
-    YTKRequestCacheErrorInvalidMetadata = -6,
-    YTKRequestCacheErrorInvalidCacheData = -7,
-    };
+typedef NS_ENUM(NSInteger,RBRequestCacheError) {
+    RBRequestCacheErrorExpired = -1,
+    RBRequestCacheErrorVersionMismatch = -2,
+    RBRequestCacheErrorSensitiveDataMismatch = -3,
+    RBRequestCacheErrorAppVersionMismatch = -4,
+    RBRequestCacheErrorInvalidCacheTime = -5,
+    RBRequestCacheErrorInvalidMetadata = -6,
+    RBRequestCacheErrorInvalidCacheData = -7,
+};
     
-    ///  YTKRequest is the base class you should inherit to create your own request class.
-    ///  Based on YTKBaseRequest, YTKRequest adds local caching feature. Note download
-    ///  request will not be cached whatsoever, because download request may involve complicated
-    ///  cache control policy controlled by `Cache-Control`, `Last-Modified`, etc.
+
 @interface RBNetwokRequest : RBBaseRequest
 
 ///  Whether to use cache as response or not.
@@ -73,4 +70,4 @@ NS_ENUM(NSInteger) {
 
 @end
     
-    NS_ASSUME_NONNULL_END
+NS_ASSUME_NONNULL_END
