@@ -156,13 +156,10 @@ typedef void(^RBRequestCompletionBlock)(__kindof RBBaseRequest *request);
 
 - (void)start;
 
-
 - (void)stop;
-
 
 - (void)startWithCompletionBlockWithSuccess:(nullable RBRequestCompletionBlock)success
                                     failure:(nullable RBRequestCompletionBlock)failure;
-
 
 #pragma mark - Subclass Override
 

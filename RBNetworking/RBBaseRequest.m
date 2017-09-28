@@ -15,16 +15,12 @@
 #import "AFNetworking.h"
 #endif
 
-NSString *const RBRequestValidationErrorDomain = @"com.yuantiku.request.validation";
-
-
-
 #ifndef NSFoundationVersionNumber_iOS_8_0
 #define NSFoundationVersionNumber_With_QoS_Available 1140.11
 #else
 #define NSFoundationVersionNumber_With_QoS_Available NSFoundationVersionNumber_iOS_8_0
 #endif
-
+NSString *const RBRequestValidationErrorDomain = @"com.yuantiku.request.validation";
 NSString *const RBRequestCacheErrorDomain = @"com.yuantiku.request.caching";
 
 static dispatch_queue_t ytkrequest_cache_writing_queue() {
@@ -132,7 +128,40 @@ static dispatch_queue_t ytkrequest_cache_writing_queue() {
     }
     return self.requestTask.state == NSURLSessionTaskStateCanceling;
 }
+- (NSString *)requestUrl {
+    return @"";
+}
 
+- (NSString *)cdnUrl {
+    return @"";
+}
+
+- (NSString *)baseUrl {
+    return @"";
+}
+- (id)requestArgument {
+    return nil;
+}
+- (void)requestCompleteFilter {
+}
+
+- (void)requestFailedPreprocessor {
+}
+
+- (void)requestFailedFilter {
+}
+
+- (NSArray *)requestAuthorizationHeaderFieldArray {
+    return nil;
+}
+
+- (NSDictionary *)requestHeaderFieldValueDictionary {
+    return nil;
+}
+
+- (NSURLRequest *)buildCustomUrlRequest {
+    return nil;
+}
 - (BOOL)isExecuting {
     if (!self.requestTask) {
         return NO;
@@ -163,7 +192,6 @@ static dispatch_queue_t ytkrequest_cache_writing_queue() {
 
 #pragma mark - Request Action
 
-
 - (void)stop {
     [self toggleAccessoriesWillStopCallBack];
     self.delegate = nil;
@@ -179,13 +207,9 @@ static dispatch_queue_t ytkrequest_cache_writing_queue() {
 
 #pragma mark - Subclass Override
 
-
-
 - (NSTimeInterval)requestTimeoutInterval {
     return 60;
 }
-
-
 
 - (id)cacheFileNameFilterForRequestArgument:(id)argument {
     return argument;
@@ -202,8 +226,6 @@ static dispatch_queue_t ytkrequest_cache_writing_queue() {
 - (RBResponseSerializerType)responseSerializerType {
     return RBResponseSerializerTypeJSON;
 }
-
-
 
 - (BOOL)useCDN {
     return NO;
@@ -522,7 +544,6 @@ static dispatch_queue_t ytkrequest_cache_writing_queue() {
             path = [f filterCacheDirPath:path withRequest:self];
         }
     }
-    
     [self createDirectoryIfNeeded:path];
     return path;
 }
@@ -550,7 +571,5 @@ static dispatch_queue_t ytkrequest_cache_writing_queue() {
     path = [path stringByAppendingPathComponent:cacheMetadataFileName];
     return path;
 }
-
-
 
 @end
