@@ -6,7 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "RBNetwokRequest.h"
+#import "RBBaseRequest.h"
 #import "RBBaseRequest.h"
 #import "RBBatchRequest.h"
 #import "RBChainRequest.h"
@@ -35,7 +35,7 @@ FOUNDATION_EXPORT void YTKLog(NSString *format, ...) NS_FORMAT_FUNCTION(1,2);
 
 @end
 
-@interface RBNetwokRequest (Getter)
+@interface RBBaseRequest (Getter)
 
 - (NSString *)cacheBasePath;
 

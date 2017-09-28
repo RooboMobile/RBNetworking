@@ -9,7 +9,7 @@
 
 #import "RBNetworkPrivate.h"
 #import "RBBatchRequestAgent.h"
-#import "RBNetwokRequest.h"
+#import "RBBaseRequest.h"
 
 @interface RBBatchRequest() <RBRequestDelegate>
 
@@ -24,8 +24,8 @@
     if (self) {
         _requestArray = [requestArray copy];
         _finishedCount = 0;
-        for (RBNetwokRequest * req in _requestArray) {
-            if (![req isKindOfClass:[RBNetwokRequest class]]) {
+        for (RBBaseRequest * req in _requestArray) {
+            if (![req isKindOfClass:[RBBaseRequest class]]) {
                 YTKLog(@"Error, request item must be YTKRequest instance.");
                 return nil;
             }
@@ -42,7 +42,7 @@
     _failedRequest = nil;
     [[RBBatchRequestAgent sharedAgent] addBatchRequest:self];
     [self toggleAccessoriesWillStartCallBack];
-    for (RBNetwokRequest * req in _requestArray) {
+    for (RBBaseRequest * req in _requestArray) {
         req.delegate = self;
         [req clearCompletionBlock];
         [req start];
@@ -77,7 +77,7 @@
 
 - (BOOL)isDataFromCache {
     BOOL result = YES;
-    for (RBNetwokRequest *request in _requestArray) {
+    for (RBBaseRequest *request in _requestArray) {
         if (!request.isDataFromCache) {
             result = NO;
         }
@@ -112,7 +112,7 @@
     _failedRequest = request;
     [self toggleAccessoriesWillStopCallBack];
     // Stop
-    for (RBNetwokRequest *req in _requestArray) {
+    for (RBBaseRequest *req in _requestArray) {
         [req stop];
     }
     // Callback
@@ -130,7 +130,7 @@
 }
 
 - (void)clearRequest {
-    for (RBNetwokRequest * req in _requestArray) {
+    for (RBBaseRequest * req in _requestArray) {
         [req stop];
     }
     [self clearCompletionBlock];

@@ -8,6 +8,7 @@
 #import <Foundation/Foundation.h>
 NS_ASSUME_NONNULL_BEGIN
 FOUNDATION_EXPORT NSString *const RBRequestValidationErrorDomain;
+FOUNDATION_EXPORT NSString *const RBRequestCacheErrorDomain;
 typedef NS_ENUM(NSInteger,RBequestValidationError) {
     RBRequestValidationErrorInvalidStatusCode = -8,
     RBRequestValidationErrorInvalidJSONFormat = -9,
@@ -35,7 +36,17 @@ typedef NS_ENUM(NSInteger, RBRequestPriority) {
     RBRequestPriorityDefault = 0,
     RBRequestPriorityHigh = 4,
 };
-    
+
+typedef NS_ENUM(NSInteger,RBRequestCacheError) {
+    RBRequestCacheErrorExpired = -1,
+    RBRequestCacheErrorVersionMismatch = -2,
+    RBRequestCacheErrorSensitiveDataMismatch = -3,
+    RBRequestCacheErrorAppVersionMismatch = -4,
+    RBRequestCacheErrorInvalidCacheTime = -5,
+    RBRequestCacheErrorInvalidMetadata = -6,
+    RBRequestCacheErrorInvalidCacheData = -7,
+};
+
 @protocol AFMultipartFormData;
 
 typedef void (^AFConstructingBlock)(id<AFMultipartFormData> formData);
@@ -107,31 +118,24 @@ typedef void(^RBRequestCompletionBlock)(__kindof RBBaseRequest *request);
 
 @property (nonatomic, readonly, getter=isExecuting) BOOL executing;
 
-
+@property (nonatomic) BOOL ignoreCache;
 #pragma mark - Request Configuration
 
 @property (nonatomic) NSInteger tag;
 
-
 @property (nonatomic, strong, nullable) NSDictionary *userInfo;
-
 
 @property (nonatomic, weak, nullable) id<RBRequestDelegate> delegate;
 
-
 @property (nonatomic, copy, nullable) RBRequestCompletionBlock successCompletionBlock;
-
 
 @property (nonatomic, copy, nullable) RBRequestCompletionBlock failureCompletionBlock;
 
-
 @property (nonatomic, strong, nullable) NSMutableArray<id<RBRequestAccessory>> *requestAccessories;
-
 
 @property (nonatomic, copy, nullable) AFConstructingBlock constructingBodyBlock;
 
 @property (nonatomic, strong, nullable) NSString *resumableDownloadPath;
-
 
 @property (nonatomic, copy, nullable) AFURLSessionTaskProgressBlock resumableDownloadProgressBlock;
 
@@ -217,6 +221,31 @@ typedef void(^RBRequestCompletionBlock)(__kindof RBBaseRequest *request);
 - (nullable id)jsonValidator;
 
 - (BOOL)statusCodeValidator;
+
+
+- (BOOL)isDataFromCache;
+
+
+- (BOOL)loadCacheWithError:(NSError * __autoreleasing *)error;
+
+
+- (void)startWithoutCache;
+
+
+- (void)saveResponseDataToCacheFile:(NSData *)data;
+
+#pragma mark - Subclass Override
+
+- (NSInteger)cacheTimeInSeconds;
+
+
+- (long long)cacheVersion;
+
+
+- (nullable id)cacheSensitiveData;
+
+
+- (BOOL)writeCacheAsynchronously;
 
 @end
 NS_ASSUME_NONNULL_END
