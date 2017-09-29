@@ -22,8 +22,6 @@
     if (!self) {
         return nil;
     }
-    
-    // Set default value for XMRequest instance
     _requestType = RBRequestNormal;
     _httpMethod = RBHTTPMethodPOST;
     _requestSerializerType = RBRequestSerializerRAW;
@@ -93,9 +91,9 @@
     BOOL _failed;
 }
 
-@property (nonatomic, copy) RBSuccessBlock batchSuccessBlock;
-@property (nonatomic, copy) RBFailureBlock batchFailureBlock;
-@property (nonatomic, copy) RBFinishedBlock batchFinishedBlock;
+@property (nonatomic, copy) RBBCSuccessBlock batchSuccessBlock;
+@property (nonatomic, copy) RBBCFailureBlock batchFailureBlock;
+@property (nonatomic, copy) RBBCFinishedBlock batchFinishedBlock;
 
 @end
 
@@ -175,9 +173,9 @@
 @property (nonatomic, strong) NSMutableArray<RBBCNextBlock> *nextBlockArray;
 @property (nonatomic, strong) NSMutableArray *responseArray;
 
-@property (nonatomic, copy) RBSuccessBlock chainSuccessBlock;
-@property (nonatomic, copy) RBFailureBlock chainFailureBlock;
-@property (nonatomic, copy) RBFinishedBlock chainFinishedBlock;
+@property (nonatomic, copy) RBBCSuccessBlock chainSuccessBlock;
+@property (nonatomic, copy) RBBCFailureBlock chainFailureBlock;
+@property (nonatomic, copy) RBBCFinishedBlock chainFinishedBlock;
 
 @end
 

@@ -150,9 +150,9 @@
 }
 
 - (NSString *)sendBatchRequest:(RBBatchRequestConfigBlock)configBlock
-                     onSuccess:(nullable RBSuccessBlock)successBlock
-                     onFailure:(nullable RBFailureBlock)failureBlock
-                    onFinished:(nullable RBFinishedBlock)finishedBlock {
+                     onSuccess:(nullable RBBCSuccessBlock)successBlock
+                     onFailure:(nullable RBBCFailureBlock)failureBlock
+                    onFinished:(nullable RBBCFinishedBlock)finishedBlock {
     RBBatchRequest *batchRequest = [[RBBatchRequest alloc] init];
     RB_SAFE_BLOCK(configBlock, batchRequest);
     
@@ -199,9 +199,9 @@
 }
 
 - (NSString *)sendChainRequest:(RBChainRequestConfigBlock)configBlock
-                     onSuccess:(nullable RBSuccessBlock)successBlock
-                     onFailure:(nullable RBFailureBlock)failureBlock
-                    onFinished:(nullable RBFinishedBlock)finishedBlock {
+                     onSuccess:(nullable RBBCSuccessBlock)successBlock
+                     onFailure:(nullable RBBCFailureBlock)failureBlock
+                    onFinished:(nullable RBBCFinishedBlock)finishedBlock {
     RBChainRequest *chainRequest = [[RBChainRequest alloc] init];
     RB_SAFE_BLOCK(configBlock, chainRequest);
     
@@ -354,16 +354,16 @@
 }
 
 + (NSString *)sendBatchRequest:(RBBatchRequestConfigBlock)configBlock
-                     onSuccess:(nullable RBSuccessBlock)successBlock
-                     onFailure:(nullable RBFailureBlock)failureBlock
-                    onFinished:(nullable RBFinishedBlock)finishedBlock {
+                     onSuccess:(nullable RBBCSuccessBlock)successBlock
+                     onFailure:(nullable RBBCFailureBlock)failureBlock
+                    onFinished:(nullable RBBCFinishedBlock)finishedBlock {
     return [[RBNetCenter defaultCenter] sendBatchRequest:configBlock onSuccess:successBlock onFailure:failureBlock onFinished:finishedBlock];
 }
 
 + (NSString *)sendChainRequest:(RBChainRequestConfigBlock)configBlock
-                     onSuccess:(nullable RBSuccessBlock)successBlock
-                     onFailure:(nullable RBFailureBlock)failureBlock
-                    onFinished:(nullable RBFinishedBlock)finishedBlock {
+                     onSuccess:(nullable RBBCSuccessBlock)successBlock
+                     onFailure:(nullable RBBCFailureBlock)failureBlock
+                    onFinished:(nullable RBBCFinishedBlock)finishedBlock {
     return [[RBNetCenter defaultCenter] sendChainRequest:configBlock onSuccess:successBlock onFailure:failureBlock onFinished:finishedBlock];
 }
 

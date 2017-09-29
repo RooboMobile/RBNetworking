@@ -15,7 +15,7 @@ static dispatch_queue_t xm_request_completion_callback_queue() {
     static dispatch_queue_t _xm_request_completion_callback_queue;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _xm_request_completion_callback_queue = dispatch_queue_create("com.xmnetworking.request.completion.callback.queue", DISPATCH_QUEUE_CONCURRENT);
+        _xm_request_completion_callback_queue = dispatch_queue_create("com.roobo.request.completion.queue", DISPATCH_QUEUE_CONCURRENT);
     });
     return _xm_request_completion_callback_queue;
 }
@@ -61,14 +61,14 @@ static OSStatus XMExtractIdentityAndTrustFromPKCS12(CFDataRef inPKCS12Data, CFSt
 
 @implementation NSObject (BindingXMRequest)
 
-static NSString * const RBRequestBindingKey = @"kXMRequestBindingKey";
+static NSString * const KRBRequestBindingKey = @"kRBRequestBindingKey";
 
 - (void)bindingRequest:(RBNetRequest *)request {
-    objc_setAssociatedObject(self, (__bridge CFStringRef)RBRequestBindingKey, request, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(self, (__bridge CFStringRef)KRBRequestBindingKey, request, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 - (RBNetRequest *)bindedRequest {
-    RBNetRequest *request = objc_getAssociatedObject(self, (__bridge CFStringRef)RBRequestBindingKey);
+    RBNetRequest *request = objc_getAssociatedObject(self, (__bridge CFStringRef)KRBRequestBindingKey);
     return request;
 }
 
@@ -82,11 +82,9 @@ static NSString * const RBRequestBindingKey = @"kXMRequestBindingKey";
 
 @property (nonatomic, strong) AFHTTPSessionManager *sessionManager;
 @property (nonatomic, strong) AFHTTPSessionManager *securitySessionManager;
-
 @property (nonatomic, strong) AFHTTPRequestSerializer *afHTTPRequestSerializer;
 @property (nonatomic, strong) AFJSONRequestSerializer *afJSONRequestSerializer;
 @property (nonatomic, strong) AFPropertyListRequestSerializer *afPListRequestSerializer;
-
 @property (nonatomic, strong) AFHTTPResponseSerializer *afHTTPResponseSerializer;
 @property (nonatomic, strong) AFJSONResponseSerializer *afJSONResponseSerializer;
 @property (nonatomic, strong) AFXMLParserResponseSerializer *afXMLResponseSerializer;
@@ -116,10 +114,8 @@ static NSString * const RBRequestBindingKey = @"kXMRequestBindingKey";
     if (!self) {
         return nil;
     }
-    
     _lock = dispatch_semaphore_create(1);
     [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
-    
     return self;
 }
 

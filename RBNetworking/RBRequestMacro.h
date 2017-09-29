@@ -6,13 +6,14 @@
 //
 
 #import <Foundation/Foundation.h>
+
 #define RB_SAFE_BLOCK(BlockName, ...) ({ !BlockName ? nil : BlockName(__VA_ARGS__); })
 #define RBLock() dispatch_semaphore_wait(self->_lock, DISPATCH_TIME_FOREVER)
 #define RBUnlock() dispatch_semaphore_signal(self->_lock)
+
 NS_ASSUME_NONNULL_BEGIN
 
 @class RBNetRequest, RBBatchRequest, RBChainRequest;
-
 
 typedef NS_ENUM(NSInteger, RBRequestType) {
     RBRequestNormal    = 0,    //!< Normal HTTP request type, such as GET, POST, ...

@@ -62,37 +62,20 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, copy, readonly, nullable) RBFailureBlock failureBlock;
 
-/**
- Finished block for request, called when current request is finished, the block will execute in `callbackQueue` of XMCenter.
- */
+
 @property (nonatomic, copy, readonly, nullable) RBFinishedBlock finishedBlock;
 
-/**
- Progress block for upload/download request, called when the upload/download progress is updated,
- NOTE: This block is called on the session queue, not the `callbackQueue` of XMCenter !!!
- */
+
 @property (nonatomic, copy, readonly, nullable) RBProgressBlock progressBlock;
 
-/**
- Nil out all callback blocks when a request is finished to break the potential retain cycle.
- */
+
 - (void)cleanCallbackBlocks;
 
-/**
- Upload files form data for upload request, `nil` by default, see `XMUploadFormData` class and `AFMultipartFormData` protocol for details.
- NOTE: This property is effective only when `requestType` is assigned to `kXMRequestUpload`.
- */
 @property (nonatomic, strong, nullable) NSMutableArray<RBUploadFormData *> *uploadFormDatas;
 
-/**
- Local save path for downloaded file, `nil` by default.
- NOTE: This property is effective only when `requestType` is assigned to `kXMRequestDownload`.
- */
+
 @property (nonatomic, copy, nullable) NSString *downloadSavePath;
 
-///----------------------------------------------------
-/// @name Quickly Methods For Add Upload File Form Data
-///----------------------------------------------------
 
 - (void)addFormDataWithName:(NSString *)name fileData:(NSData *)fileData;
 - (void)addFormDataWithName:(NSString *)name fileName:(NSString *)fileName mimeType:(NSString *)mimeType fileData:(NSData *)fileData;
@@ -102,10 +85,6 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 #pragma mark - XMBatchRequest
-
-///------------------------------------------------------
-/// @name XMBatchRequest Class for sending batch requests
-///------------------------------------------------------
 
 @interface RBBatchRequest : NSObject
 
@@ -118,10 +97,6 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 #pragma mark - XMChainRequest
-
-///------------------------------------------------------
-/// @name XMChainRequest Class for sending chain requests
-///------------------------------------------------------
 
 @interface RBChainRequest : NSObject
 
@@ -137,45 +112,25 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - XMUploadFormData
 
-/**
- `XMUploadFormData` is the class for describing and carring the upload file data, see `AFMultipartFormData` protocol for details.
- */
 @interface RBUploadFormData : NSObject
 
-/**
- The name to be associated with the specified data. This property must not be `nil`.
- */
 @property (nonatomic, copy) NSString *name;
 
-/**
- The file name to be used in the `Content-Disposition` header. This property is not recommended be `nil`.
- */
 @property (nonatomic, copy, nullable) NSString *fileName;
 
-/**
- The declared MIME type of the file data. This property is not recommended be `nil`.
- */
 @property (nonatomic, copy, nullable) NSString *mimeType;
 
-/**
- The data to be encoded and appended to the form data, and it is prior than `fileURL`.
- */
 @property (nonatomic, strong, nullable) NSData *fileData;
 
-/**
- The URL corresponding to the file whose content will be appended to the form, BUT, when the `fileData` is assigned，the `fileURL` will be ignored.
- */
 @property (nonatomic, strong, nullable) NSURL *fileURL;
 
-// NOTE: Either of the `fileData` and `fileURL` should not be `nil`, and the `fileName` and `mimeType` must both be `nil` or assigned at the same time,
-
-///-----------------------------------------------------
-/// @name Quickly Class Methods For Creates A New Object
-///-----------------------------------------------------
 
 + (instancetype)formDataWithName:(NSString *)name fileData:(NSData *)fileData;
+
 + (instancetype)formDataWithName:(NSString *)name fileName:(NSString *)fileName mimeType:(NSString *)mimeType fileData:(NSData *)fileData;
+
 + (instancetype)formDataWithName:(NSString *)name fileURL:(NSURL *)fileURL;
+
 + (instancetype)formDataWithName:(NSString *)name fileName:(NSString *)fileName mimeType:(NSString *)mimeType fileURL:(NSURL *)fileURL;
 
 @end

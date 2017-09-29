@@ -95,15 +95,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 - (nullable NSString *)sendBatchRequest:(RBBatchRequestConfigBlock)configBlock
-                              onSuccess:(nullable RBSuccessBlock)successBlock
-                              onFailure:(nullable RBFailureBlock)failureBlock
-                             onFinished:(nullable RBFinishedBlock)finishedBlock;
+                              onSuccess:(nullable RBBCSuccessBlock)successBlock
+                              onFailure:(nullable RBBCFailureBlock)failureBlock
+                             onFinished:(nullable RBBCFinishedBlock)finishedBlock;
 
 
 - (nullable NSString *)sendChainRequest:(RBChainRequestConfigBlock)configBlock
-                              onSuccess:(nullable RBSuccessBlock)successBlock
-                              onFailure:(nullable RBFailureBlock)failureBlock
-                             onFinished:(nullable RBFinishedBlock)finishedBlock;
+                              onSuccess:(nullable RBBCSuccessBlock)successBlock
+                              onFailure:(nullable RBBCFailureBlock)failureBlock
+                             onFinished:(nullable RBBCFinishedBlock)finishedBlock;
 
 
 
@@ -161,14 +161,14 @@ NS_ASSUME_NONNULL_BEGIN
                         onFinished:(nullable RBFinishedBlock)finishedBlock;
 
 + (nullable NSString *)sendBatchRequest:(RBBatchRequestConfigBlock)configBlock
-                              onSuccess:(nullable RBSuccessBlock)successBlock
-                              onFailure:(nullable RBFailureBlock)failureBlock
-                             onFinished:(nullable RBFinishedBlock)finishedBlock;
+                              onSuccess:(nullable RBBCSuccessBlock)successBlock
+                              onFailure:(nullable RBBCFailureBlock)failureBlock
+                             onFinished:(nullable RBBCFinishedBlock)finishedBlock;
 
 + (nullable NSString *)sendChainRequest:(RBChainRequestConfigBlock)configBlock
-                              onSuccess:(nullable RBSuccessBlock)successBlock
-                              onFailure:(nullable RBFailureBlock)failureBlock
-                             onFinished:(nullable RBFinishedBlock)finishedBlock;
+                              onSuccess:(nullable RBBCSuccessBlock)successBlock
+                              onFailure:(nullable RBBCFailureBlock)failureBlock
+                             onFinished:(nullable RBBCFinishedBlock)finishedBlock;
 
 #pragma mark -
 
