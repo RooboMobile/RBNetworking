@@ -16,14 +16,11 @@ NS_ASSUME_NONNULL_BEGIN
 @class RBNetRequest, RBBatchRequest, RBChainRequest;
 
 typedef NS_ENUM(NSInteger, RBRequestType) {
-    RBRequestNormal    = 0,    //!< Normal HTTP request type, such as GET, POST, ...
-    RBRequestUpload    = 1,    //!< Upload request type
-    RBRequestDownload  = 2,    //!< Download request type
+    RBRequestNormal    = 0,
+    RBRequestUpload    = 1,
+    RBRequestDownload  = 2,
 };
 
-/**
- HTTP methods enum for XMRequest.
- */
 typedef NS_ENUM(NSInteger, RBHTTPMethodType) {
     RBHTTPMethodGET    = 0,    //!< GET
     RBHTTPMethodPOST   = 1,    //!< POST
@@ -33,69 +30,33 @@ typedef NS_ENUM(NSInteger, RBHTTPMethodType) {
     RBHTTPMethodPATCH  = 5,    //!< PATCH
 };
 
-/**
- Resquest parameter serialization type enum for XMRequest, see `AFURLRequestSerialization.h` for details.
- */
 typedef NS_ENUM(NSInteger,RBRequestSerializerType) {
-    RBRequestSerializerRAW     = 0,    //!< Encodes parameters to a query string and put it into HTTP body, setting the `Content-Type` of the encoded request to default value `application/x-www-form-urlencoded`.
-    RBRequestSerializerJSON    = 1,    //!< Encodes parameters as JSON using `NSJSONSerialization`, setting the `Content-Type` of the encoded request to `application/json`.
-    RBRequestSerializerPlist   = 2,    //!< Encodes parameters as Property List using `NSPropertyListSerialization`, setting the `Content-Type` of the encoded request to `application/x-plist`.
+    RBRequestSerializerRAW     = 0,
+    RBRequestSerializerJSON    = 1,
+    RBRequestSerializerPlist   = 2,
 };
 
-/**
- Response data serialization type enum for XMRequest, see `AFURLResponseSerialization.h` for details.
- */
+
 typedef NS_ENUM(NSInteger, RBResponseSerializerType) {
-    RBResponseSerializerRAW    = 0,    //!< Validates the response status code and content type, and returns the default response data.
-    RBResponseSerializerJSON   = 1,    //!< Validates and decodes JSON responses using `NSJSONSerialization`, and returns a NSDictionary/NSArray/... JSON object.
-    RBResponseSerializerPlist  = 2,    //!< Validates and decodes Property List responses using `NSPropertyListSerialization`, and returns a property list object.
-    RBResponseSerializerXML    = 3,    //!< Validates and decodes XML responses as an `NSXMLParser` objects.
+    RBResponseSerializerRAW    = 0,
+    RBResponseSerializerJSON   = 1,
+    RBResponseSerializerPlist  = 2,
+    RBResponseSerializerXML    = 3,
 };
-
-///------------------------------
-/// @name XMRequest Config Blocks
-///------------------------------
 
 typedef void (^RBRequestConfigBlock)(RBNetRequest *request);
 typedef void (^RBBatchRequestConfigBlock)(RBBatchRequest *batchRequest);
 typedef void (^RBChainRequestConfigBlock)(RBChainRequest *chainRequest);
-
-///--------------------------------
-/// @name XMRequest Callback Blocks
-///--------------------------------
-
 typedef void (^RBProgressBlock)(NSProgress *progress);
 typedef void (^RBSuccessBlock)(id _Nullable responseObject);
 typedef void (^RBFailureBlock)(NSError * _Nullable error);
 typedef void (^RBFinishedBlock)(id _Nullable responseObject, NSError * _Nullable error);
-typedef void (^RBCancelBlock)(id _Nullable request); // The `request` might be a XMRequest/XMBatchRequest/XMChainRequest object.
-
-///-------------------------------------------------
-/// @name Callback Blocks for Batch or Chain Request
-///-------------------------------------------------
-
+typedef void (^RBCancelBlock)(id _Nullable request);
 typedef void (^RBBCSuccessBlock)(NSArray *responseObjects);
 typedef void (^RBBCFailureBlock)(NSArray *errors);
 typedef void (^RBBCFinishedBlock)(NSArray * _Nullable responseObjects, NSArray * _Nullable errors);
 typedef void (^RBBCNextBlock)(RBNetRequest *request, id _Nullable responseObject, BOOL *isSent);
-
-///------------------------------
-/// @name XMCenter Process Blocks
-///------------------------------
-
-/**
- The custom request pre-process block for all XMRequests invoked by XMCenter.
- 
- @param request The current XMRequest object.
- */
 typedef void (^RBCenterRequestProcessBlock)(RBNetRequest *request);
-/**
- The custom response process block for all XMRequests invoked by XMCenter.
- 
- @param request The current XMRequest object.
- @param responseObject The response data return from server.
- @param error The error that occurred while the response data don't conforms to your own business logic.
- */
 typedef void (^RBCenterResponseProcessBlock)(RBNetRequest *request, id _Nullable responseObject, NSError * _Nullable __autoreleasing *error);
 
 NS_ASSUME_NONNULL_END

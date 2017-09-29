@@ -12,15 +12,12 @@
 @interface RBNetCenter () {
     dispatch_semaphore_t _lock;
 }
-
 @property (nonatomic, assign) NSUInteger autoIncrement;
 @property (nonatomic, strong) NSMutableDictionary<NSString *, id> *runningBatchAndChainPool;
 @property (nonatomic, strong, readwrite) NSMutableDictionary<NSString *, id> *generalParameters;
 @property (nonatomic, strong, readwrite) NSMutableDictionary<NSString *, NSString *> *generalHeaders;
-
 @property (nonatomic, copy) RBCenterResponseProcessBlock responseProcessHandler;
 @property (nonatomic, copy) RBCenterRequestProcessBlock requestProcessHandler;
-
 @end
 
 @implementation RBNetCenter
@@ -166,7 +163,6 @@
         if (finishedBlock) {
             [batchRequest setValue:finishedBlock forKey:@"_batchFinishedBlock"];
         }
-        
         [batchRequest.responseArray removeAllObjects];
         for (RBNetRequest *request in batchRequest.requestArray) {
             [batchRequest.responseArray addObject:[NSNull null]];

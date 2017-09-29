@@ -128,7 +128,6 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)setGeneralParameterValue:(nullable id)value forKey:(NSString *)key;
 
 
-
 + (nullable NSString *)sendRequest:(RBRequestConfigBlock)configBlock;
 
 + (nullable NSString *)sendRequest:(RBRequestConfigBlock)configBlock
