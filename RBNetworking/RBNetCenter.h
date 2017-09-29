@@ -7,7 +7,7 @@
 
 #import <Foundation/Foundation.h>
 #import "RBRequestMacro.h"
-@class RBRequestConfiger, RBNetEngine,RBRequestConfiger;
+@class RBRequestConfiger,RBNetEngine,RBRequestConfiger;
 
 NS_ASSUME_NONNULL_BEGIN
 @interface RBNetCenter : NSObject
