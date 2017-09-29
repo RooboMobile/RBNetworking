@@ -8,7 +8,7 @@
 #import "RBNetCenter.h"
 #import "RBNetRequest.h"
 #import "RBNetEngine.h"
-#import "RBNetConfiger.h"
+#import "RBRequestConfiger.h"
 @interface RBNetCenter () {
     dispatch_semaphore_t _lock;
 }
@@ -48,8 +48,8 @@
 
 #pragma mark - Public Instance Methods for RBCenter
 
-- (void)setupConfig:(void(^)(RBNetConfiger *config))block {
-    RBNetConfiger *config = [[RBNetConfiger alloc] init];
+- (void)setupConfig:(void(^)(RBRequestConfiger *config))block {
+    RBRequestConfiger *config = [[RBRequestConfiger alloc] init];
     config.consoleLog = NO;
     RB_SAFE_BLOCK(block, config);
     
@@ -280,7 +280,7 @@
 
 #pragma mark - Public Class Methods for RBCenter
 
-+ (void)setupConfig:(void(^)(RBNetConfiger *config))block {
++ (void)setupConfig:(void(^)(RBRequestConfiger *config))block {
     [[RBNetCenter defaultCenter] setupConfig:block];
 }
 

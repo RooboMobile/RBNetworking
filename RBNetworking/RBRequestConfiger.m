@@ -5,8 +5,8 @@
 //  Created by baxiang on 2017/9/29.
 //
 
-#import "RBNetConfiger.h"
+#import "RBRequestConfiger.h"
 
-@implementation RBNetConfiger
+@implementation RBRequestConfiger
 
 @end

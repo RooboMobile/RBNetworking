@@ -8,7 +8,7 @@
 #import <Foundation/Foundation.h>
 @class RBNetEngine;
 
-@interface RBNetConfiger : NSObject
+@interface RBRequestConfiger : NSObject
 
 @property (nonatomic, copy, nullable) NSString *generalServer;
 @property (nonatomic, strong, nullable) NSDictionary<NSString *, id> *generalParameters;
