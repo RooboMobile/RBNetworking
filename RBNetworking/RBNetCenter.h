@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, nullable) NSDictionary *generalUserInfo;
 @property (nonatomic, strong, nullable) dispatch_queue_t callbackQueue;
 @property (nonatomic, strong) RBNetEngine *engine;
-@property (nonatomic, assign) BOOL consoleLog;
+
 
 
 - (void)setupConfig:(void(^)(RBRequestConfiger *config))block;

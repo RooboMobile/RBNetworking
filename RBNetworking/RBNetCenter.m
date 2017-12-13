@@ -50,7 +50,6 @@
 
 - (void)setupConfig:(void(^)(RBRequestConfiger *config))block {
     RBRequestConfiger *config = [[RBRequestConfiger alloc] init];
-    config.consoleLog = NO;
     RB_SAFE_BLOCK(block, config);
     
     if (config.generalServer) {
@@ -71,7 +70,6 @@
     if (config.engine) {
         self.engine = config.engine;
     }
-    self.consoleLog = config.consoleLog;
 }
 
 - (void)setRequestProcessBlock:(RBCenterRequestProcessBlock)block {
@@ -488,13 +486,7 @@
 
 - (void)RB_sendRequest:(RBNetRequest *)request {
     
-    if (self.consoleLog) {
-        if (request.requestType == RBRequestDownload) {
-            NSLog(@"\n============ [RBRequest Info] ============\nrequest download url: %@\nrequest save path: %@ \nrequest headers: \n%@ \nrequest parameters: \n%@ \n==========================================\n", request.url, request.downloadSavePath, request.headers, request.parameters);
-        } else {
-            NSLog(@"\n============ [RBRequest Info] ============\nrequest url: %@ \nrequest headers: \n%@ \nrequest parameters: \n%@ \n==========================================\n", request.url, request.headers, request.parameters);
-        }
-    }
+   
     
     // send the request through RBEngine.
     [self.engine sendRequest:request completionHandler:^(id responseObject, NSError *error) {
@@ -517,17 +509,7 @@
         return;
     }
     
-    if (self.consoleLog) {
-        if (request.requestType == RBRequestDownload) {
-            NSLog(@"\n============ [RBResponse Data] ===========\nrequest download url: %@\nresponse data: %@\n==========================================\n", request.url, responseObject);
-        } else {
-            if (request.responseSerializerType == RBResponseSerializerRAW) {
-                NSLog(@"\n============ [RBResponse Data] ===========\nrequest url: %@ \nresponse data: \n%@\n==========================================\n", request.url, [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding]);
-            } else {
-                NSLog(@"\n============ [RBResponse Data] ===========\nrequest url: %@ \nresponse data: \n%@\n==========================================\n", request.url, responseObject);
-            }
-        }
-    }
+  
     
     if (self.callbackQueue) {
         __weak __typeof(self)weakSelf = self;
@@ -549,9 +531,7 @@
 
 - (void)RB_failureWithError:(NSError *)error forRequest:(RBNetRequest *)request {
     
-    if (self.consoleLog) {
-        NSLog(@"\n=========== [RBResponse Error] ===========\nrequest url: %@ \nerror info: \n%@\n==========================================\n", request.url, error);
-    }
+   
     
     if (request.retryCount > 0) {
         request.retryCount --;

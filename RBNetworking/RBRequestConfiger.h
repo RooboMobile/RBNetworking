@@ -16,5 +16,4 @@
 @property (nonatomic, strong, nullable) NSDictionary *generalUserInfo;
 @property (nonatomic, strong, nullable) dispatch_queue_t callbackQueue;
 @property (nonatomic, strong, nullable) RBNetEngine *engine;
-@property (nonatomic, assign) BOOL consoleLog;
 @end
