@@ -534,6 +534,10 @@ static NSString * const KRBRequestBindingKey = @"kRBRequestBindingKey";
         _sessionManager.requestSerializer = self.afHTTPRequestSerializer;
         _sessionManager.responseSerializer = self.afHTTPResponseSerializer;
         _sessionManager.operationQueue.maxConcurrentOperationCount = 5;
+//        AFSecurityPolicy *security = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
+//        [security setValidatesDomainName:NO];
+//        security.allowInvalidCertificates = YES;
+//        _sessionManager.securityPolicy = security;
         _sessionManager.completionQueue = xm_request_completion_callback_queue();
     }
     return _sessionManager;
@@ -544,7 +548,7 @@ static NSString * const KRBRequestBindingKey = @"kRBRequestBindingKey";
         _securitySessionManager = [AFHTTPSessionManager manager];
         _securitySessionManager.requestSerializer = self.afHTTPRequestSerializer;
         _securitySessionManager.responseSerializer = self.afHTTPResponseSerializer;
-        _securitySessionManager.securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeCertificate];
+        _securitySessionManager.securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
         _securitySessionManager.operationQueue.maxConcurrentOperationCount = 5;
         _securitySessionManager.completionQueue = xm_request_completion_callback_queue();
     }
