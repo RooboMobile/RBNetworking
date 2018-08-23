@@ -22,7 +22,7 @@ pod 'RBNetworking'
 
 ## Author
 
-baxiang, baxiang@roobo.com
+
 
 ## License
 
